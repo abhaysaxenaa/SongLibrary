@@ -20,27 +20,18 @@ public class Songlib extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		FXMLLoader loader = new FXMLLoader(); 
-		loader.setLocation(
-				getClass().getResource("/view/display.fxml"));
+		loader.setLocation(getClass().getResource("/view/display.fxml"));
 		
 		AnchorPane root = (AnchorPane)loader.load();
-
-		Button details = new Button("Details");
-		Button add = new Button("Add");
-		Button delete = new Button("Delete");
-		
-		HBox hbox = new HBox(10, details, add, delete);
-		
-		root.getChildren().addAll(hbox);
-		AnchorPane.setBottomAnchor(hbox, 10d);
-		AnchorPane.setRightAnchor(hbox, 10d);
 		
 		SonglibController listController = 
 				loader.getController();
 		listController.start(primaryStage);
 
-		Scene scene = new Scene(root, 500, 500);
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Song Library - ans192 & vg311");
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		primaryStage.show(); 
 	}
 
