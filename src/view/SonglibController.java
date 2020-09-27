@@ -27,21 +27,7 @@ public class SonglibController {
 	public void start(Stage mainStage) {                
 		// create an ObservableList 
 		// from an ArrayList  
-		obsList = FXCollections.observableArrayList(                               
-				"Giants",                               
-				"Patriots",
-				"49ers",
-				"Rams",
-				"Packers",
-				"Colts",
-				"Cowboys",
-				"Broncos",
-				"Vikings",
-				"Dolphins",
-				"Titans",
-				"Seahawks",
-				"Steelers",
-				"Jaguars"); 
+		obsList = FXCollections.observableArrayList(); 
 
 		listView.setItems(obsList); 
 		sortList(obsList);
@@ -100,7 +86,7 @@ public class SonglibController {
 	}
 	
 	private void addSong(ActionEvent e) throws IOException {
-
+		
 	}
 	
 	private void deleteSong(ActionEvent e) throws IOException {
