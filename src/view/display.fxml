@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-
+<!-- ABHAY SAXENA & KARTHIK -->
 
 <!-- COPIED FROM GITHUB, CHANGE CODE!! -->
 
@@ -14,35 +14,53 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<!-- ABHAY SAXENA & KARTHIK -->
-
 <AnchorPane fx:controller="view.SonglibController"
 	prefHeight="568.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8.0.111"
 	xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		
+		<!-- Song List's Window -->
 		<ListView fx:id="listView" prefHeight="325.0" prefWidth="320.0" />
+		
 		<Label layoutX="9.0" layoutY="338.0" text="Name:" />
+		
+		<!-- Song Name TextField -->
 		<TextField fx:id="nameField" layoutX="57.0" layoutY="335.0"
 			prefHeight="25.0" prefWidth="250.0" promptText="Song Name"/>
+			
 		<Label layoutX="9.0" layoutY="373.0" text="Artist:" />
+		
+		<!-- Song Artist TextField -->
 		<TextField fx:id="artistField" layoutX="57.0" layoutY="370.0"
 			prefWidth="250.0" promptText="Artist Name"/>
+			
 		<Label layoutX="9.0" layoutY="409.0" text="Album:" />
+		
+		<!-- Album Name TextField -->
 		<TextField fx:id="albumField" layoutX="57.0" layoutY="405.0"
 			prefWidth="250.0" promptText="Album Name"/>
+			
 		<Label layoutX="9.0" layoutY="443.0" text="Year:" />
+		
+		<!-- Year of Release TextField -->
 		<TextField fx:id="yearField" layoutX="57.0" layoutY="440.0"
 			prefWidth="250.0" promptText="Year of Release"/>
-		<Button fx:id="confirmButton" layoutX="14.0" layoutY="480.0"
-			mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Confirm" />
-		<Button fx:id="cancelButton" layoutX="165.0" layoutY="480.0"
-			mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Cancel" />
-		<Button fx:id="addButton" layoutX="14.0" layoutY="520.0"
-			mnemonicParsing="false" text="Add" />
-		<Button fx:id="deleteButton" layoutX="135.0" layoutY="520.0"
-			mnemonicParsing="false" text="Delete" />
-		<Button fx:id="editButton" layoutX="269.0" layoutY="520.0"
-			mnemonicParsing="false" text="Edit" />
+			
+		<!-- Add Button -->
+		<Button fx:id="addButton" layoutX="30" layoutY="490"
+			mnemonicParsing="false" text="Add" onAction="#add"/>
+			
+		<!-- Delete Button -->
+		<Button fx:id="deleteButton" layoutX="135.0" layoutY="490"
+			mnemonicParsing="false" text="Delete" onAction="#delete"/>
+			
+		<!-- Edit Button -->
+		<Button fx:id="editButton" layoutX="253" layoutY="490"
+			mnemonicParsing="false" text="Edit" onAction="#edit"/>
+			
+		<!-- Clear Button -->
+		<Button fx:id="clearButton" layoutX="253" layoutY="530"
+			mnemonicParsing="false" text="Clear" onAction="#clearFields"/>
+			
 	</children>
 </AnchorPane>

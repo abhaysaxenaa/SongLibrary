@@ -1,6 +1,8 @@
+//Abhay Saxena & GVS Karthik
+
 package view;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -10,62 +12,58 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
+import object.Song;
 
 public class SonglibController {
 	
 	@FXML         
-	ListView<String> listView;  
+	ListView<Song> listView;  
 	
-	@FXML
-	Button addButton, editButton, deleteButton, confirmButton, cancelButton;
+	@FXML TextField nameField;
+	@FXML TextField artistField;
+	@FXML TextField albumField;
+	@FXML TextField yearField;
 	
-	private ObservableList<String> obsList; 
+	@FXML Button addButton;
+	@FXML Button editButton;
+	@FXML Button deleteButton;
+	@FXML Button clearButton;
+	
+	private ObservableList<Song> obsList; 
 	
 	public void start(Stage mainStage) {                
-		// create an ObservableList 
-		// from an ArrayList  
+		
+		//Implement reading songs from file!!
+		
 		obsList = FXCollections.observableArrayList(); 
 
 		listView.setItems(obsList); 
-		sortList(obsList);
-		// select the first item
+		
+		//Somehow sort the obsList!!
+		
 		listView.getSelectionModel().select(0);
 
 		// set listener for the items
-		listView
+		
+		/*listView
 		.getSelectionModel()
 		.selectedIndexProperty()
 		.addListener(
 				(obs, oldVal, newVal) -> 
-				showItemInputDialog(mainStage));
-
-	}
-	
-	/*private void showItem(Stage mainStage) {                
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.initOwner(mainStage);
-		alert.setTitle("List Item");
-		alert.setHeaderText(
-				"Selected list item properties");
-
-		String content = "Index: " + 
-				listView.getSelectionModel()
-		.getSelectedIndex() + 
-		"\nValue: " + 
-		listView.getSelectionModel()
-		.getSelectedItem();
-
-		alert.setContentText(content);
-		alert.showAndWait();
+				showItemInputDialog(mainStage));*/
 		
 	}
-	*/
-	
-	private void showItemInputDialog(Stage mainStage) {                
-		String item = listView.getSelectionModel().getSelectedItem();
+
+	//METHOD NOT WORKING FOR SOME REASON!!
+	/*
+	@FXML
+	public void showItemInputDialog(Stage mainStage) {                
+		Song item = listView.getSelectionModel().getSelectedItem();
 		int index = listView.getSelectionModel().getSelectedIndex();
 
 		TextInputDialog dialog = new TextInputDialog(item);
@@ -76,24 +74,60 @@ public class SonglibController {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) { obsList.set(index, result.get()); }
 	}
+	*/
 	
-	private void sortList(ObservableList<String> obsList) {
-		if (obsList.size() == 0) return;
-		/* int count = 0;
-		while (count<obsList.size()) {
-			if ()
-		}*/
+	@FXML
+	public void add(ActionEvent e) {
+		
+		if (!obsList.isEmpty()) {
+			return;
+		} else {
+			String enteredName = nameField.getText(), enteredArtist = artistField.getText(), enteredAlbum = albumField.getText(), enteredYear = yearField.getText();
+			Song newSong = new Song(enteredName, enteredArtist, enteredAlbum, enteredYear);
+			
+			//Create a check for existing songs with matching fields!!
+			
+			Alert confirmation = generateConfirmation();
+			Optional<ButtonType> result = confirmation.showAndWait();
+			if (result.get() == ButtonType.YES) {
+				listView.getItems().add(newSong);
+				listView.getSelectionModel().select(newSong);
+			} else {
+				clearFields();
+				return;
+			}
+		}
 	}
 	
-	private void addSong(ActionEvent e) throws IOException {
+	//Delete Song
+	@FXML
+	public void delete(ActionEvent e) throws IOException {
 		
 	}
 	
-	private void deleteSong(ActionEvent e) throws IOException {
+	//Edit Song
+	@FXML
+	public void edit(ActionEvent e) throws IOException {
 		
 	}
 	
-	private void editSong(ActionEvent e) throws IOException {
-		
+	//Clear Fields
+	@FXML
+	public void clearFields() {
+		nameField.clear();
+		artistField.clear();
+		albumField.clear();
+		yearField.clear();
+	}
+	
+	public Alert generateConfirmation() {
+		Alert confirmation = new Alert(AlertType.CONFIRMATION);
+		confirmation.setTitle("Confirmation Dialog");
+		confirmation.setHeaderText("Confirm your choice");
+		confirmation.setContentText("Are you sure you want to do this action?");
+
+		confirmation.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+
+		return confirmation;
 	}
 }

@@ -1,11 +1,11 @@
+//Abhay Saxena & GVS Karthik
+
 package app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import view.SonglibController;
 
@@ -24,8 +24,7 @@ public class Songlib extends Application {
 		
 		AnchorPane root = (AnchorPane)loader.load();
 		
-		SonglibController listController = 
-				loader.getController();
+		SonglibController listController = loader.getController();
 		listController.start(primaryStage);
 
 		Scene scene = new Scene(root);
