@@ -20,6 +20,7 @@
 	<children>
 		
 		<!-- Song List's Window -->
+		
 		<ListView fx:id="listView" prefHeight="300" prefWidth="400" />
 		
 		<Label layoutX="160" layoutY="310" text="Song Details:" />
