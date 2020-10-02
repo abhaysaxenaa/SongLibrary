@@ -209,7 +209,7 @@ public class SonglibController {
 		Optional<ButtonType> confirm = confirmation.showAndWait();
 		
 		if (confirm.get() == ButtonType.YES) {
-			if(!addCheck(newSong,true)) {
+			if(!addCheck(newSong, true)) {
 				return;	
 			}
 			obsList.set(index,newSong);
@@ -254,7 +254,7 @@ public class SonglibController {
 	}
 	
 	public void songListReader() {
-		File file = new File("songs.out");
+		File file = new File("src/storage/songs.out");
 		if (!file.exists()){
 			try {
 				//if file doesn't exist, create a new file.
@@ -291,7 +291,7 @@ public class SonglibController {
     }
 	
 	public void songListFileWriter()  {
-		String songsTextFile = "songs.out";
+		String songsTextFile = "src/storage/songs.out";
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(songsTextFile));
 			for(Song song : obsList) {
