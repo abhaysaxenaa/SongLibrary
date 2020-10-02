@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
@@ -42,10 +43,10 @@ public class SonglibController {
 	
 	private ObservableList<Song> obsList; 
 	
-	public void start(Stage mainStage) {                
-		
-		//Implement reading songs from file!!
-		
+	//SORTER
+	Comparator<Song> comparator = Comparator.comparing(Song::getName);
+	
+	public void start(Stage mainStage) {
 		
 		obsList = FXCollections.observableArrayList(); 
 
@@ -53,11 +54,19 @@ public class SonglibController {
 		
 		listView.setItems(obsList); 
 		
-		//Somehow sort the obsList!!
 		
+		//SORTER
+		if (!obsList.isEmpty()) {
+			FXCollections.sort(obsList, comparator);
+			listView.setItems(obsList); 
+		}
+		
+		
+		//As application spins up, if List != Empty, select the first song.
 		if (!obsList.isEmpty())
 	    	  listView.getSelectionModel().select(0);
 
+		
 		// Set listener for the items, to make editing easier.
 		listView
 		.getSelectionModel()
@@ -91,6 +100,10 @@ public class SonglibController {
 			
 			if (confirmation.showAndWait().get() == ButtonType.YES) {
 				listView.getItems().add(newSong);
+				if (!obsList.isEmpty()) {
+					FXCollections.sort(obsList, comparator);
+					listView.setItems(obsList); 
+				}
 				//songListFileWriter();
 				
 				listView.getSelectionModel().select(newSong);
@@ -214,7 +227,10 @@ public class SonglibController {
 			}
 			obsList.set(index,newSong);
 			
-			//SORT LIST CALL
+			if (!obsList.isEmpty()) {
+				FXCollections.sort(obsList, comparator);
+				listView.setItems(obsList); 
+			}
 			
 			listView.getSelectionModel().select(index);
 
@@ -324,36 +340,25 @@ public class SonglibController {
 		
 	}
 	
-	/*public void songListFileWriter()  {
-		PrintWriter writer;
-	  	try {
-	  			File file = new File ("songs.in.txt");
-	  			file.createNewFile();
-	  			writer = new PrintWriter(file);
-				for(Song s: obsList)
-		    	  {
-		    		  writer.println(s.getName());
-		    		  writer.println(s.getArtistName());
-		    		  writer.println(s.getAlbumName());
-		    		  writer.println(s.getYear());
-		    		  
-		    	  }
-		    	 writer.close(); 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-	
 	//MODIFIED: Populate Song Details on the Form.
 	public void populateFields(Song selectedSong) {
 		
 		//This if-condition nullifies the error of: if the list is empty, and the listener calls for populate fields of an empty list.
-		if (obsList.size() != 0) {
-			songName.setText(selectedSong.getName());
-			artistName.setText(selectedSong.getArtistName());
-			albumName.setText(selectedSong.getAlbumName());
-			yearOfRelease.setText(selectedSong.getYear());
+		if (obsList.size() != 0 && selectedSong != null) {
+			if (selectedSong.getName() != null) {
+				songName.setText(selectedSong.getName());
+			} else {
+				
+			}
+			if (selectedSong.getArtistName() != null) {
+				artistName.setText(selectedSong.getArtistName());
+			}
+			if (selectedSong.getAlbumName() != null) {
+				albumName.setText(selectedSong.getAlbumName());
+			}
+			if (selectedSong.getYear() != null) {
+				yearOfRelease.setText(selectedSong.getYear());
+			}
 		} else {
 			return;
 		}
