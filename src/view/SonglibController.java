@@ -43,23 +43,14 @@ public class SonglibController {
 	
 	private ObservableList<Song> obsList; 
 	
-	//Created Song comparator, used for sorting the list in alphabetical order.
-	Comparator<Song> comparator = Comparator.comparing(Song::getName);
-	
 	public void start(Stage mainStage) {
 		
 		obsList = FXCollections.observableArrayList(); 
 
+		//Previous session is fed into the new session.
 		songListReader();
 		
 		listView.setItems(obsList); 
-		
-		
-		//SORTER
-		/*if (!obsList.isEmpty()) {
-			FXCollections.sort(obsList, comparator);
-			listView.setItems(obsList); 
-		}*/
 		
 		
 		//As application spins up, if List != Empty, select the first song.
@@ -100,9 +91,18 @@ public class SonglibController {
 				//Add song
 				listView.getItems().add(newSong);
 				
-				//Sort List
+				//Sort List using a Comparator object.
 				if (!obsList.isEmpty()) {
-					FXCollections.sort(obsList, comparator);
+					FXCollections.sort(obsList, new Comparator<Song>() {
+						@Override
+						public int compare(Song s1, Song s2) {
+							if (s1.getName().toLowerCase().equals(s2.getName().toLowerCase())) {
+								return s1.getArtistName().toLowerCase().compareTo(s2.getArtistName().toLowerCase());
+							} else {
+								return s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase());
+							}
+						}
+					});
 					listView.setItems(obsList); 
 				}
 				
@@ -144,7 +144,7 @@ public class SonglibController {
 		if (isAdd) {
 			
 			for(Song s: obsList) {
-				//MODIFIED: Added .toLowerCase() condition, since the check is case-insensitive.
+				//Main Check: New Song should not have the same Song Name and Artist Name.
 				if(s.getName().toLowerCase().equals(song.getName().toLowerCase()) && s.getArtistName().toLowerCase().equals(song.getArtistName().toLowerCase())) {
 					errorAlert("Item already exists in the list. Cannot duplicate.");
 					return false;
@@ -164,7 +164,6 @@ public class SonglibController {
 			} else if (Integer.valueOf(year) > 2020) {
 				errorAlert("Enter a song with a valid year of release.");
 				return false;
-				//MODIFIED: Just some one more specification. Added Song's YearOfRelease cannot be greater than current year.
 			}
 			
 		}
@@ -226,13 +225,25 @@ public class SonglibController {
 			}
 			obsList.set(index,newSong);
 			
+			//Sort List using a Comparator object.
 			if (!obsList.isEmpty()) {
-				FXCollections.sort(obsList, comparator);
+				if (!obsList.isEmpty()) {
+					FXCollections.sort(obsList, new Comparator<Song>() {
+						@Override
+						public int compare(Song s1, Song s2) {
+							if (s1.getName().toLowerCase().equals(s2.getName().toLowerCase())) {
+								return s1.getArtistName().toLowerCase().compareTo(s2.getArtistName().toLowerCase());
+							} else {
+								return s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase());
+							}
+						}
+					});
 				listView.setItems(obsList); 
 			}
 			
 			listView.getSelectionModel().select(index);
 
+			}
 		}
 		
 		
