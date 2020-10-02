@@ -1,4 +1,4 @@
-//Abhay Saxena & GVS Karthik
+//Abhay Saxena (ans192) & GVS Karthik (vg311)
 
 package object;
 
@@ -48,17 +48,10 @@ public class Song {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	
-	public int compareTo(Song comparable) {
-		if (this.name.equals(comparable.name))
-			return this.artistName.toLowerCase().compareTo(comparable.artistName.toLowerCase());
-
-		return this.name.toLowerCase().compareTo(comparable.name.toLowerCase());
-	}
 
 	@Override
 	public String toString() {
-		return this.name + " - " + this.artistName;
+		return this.name + ", by " + this.artistName;
 	}
 
 }

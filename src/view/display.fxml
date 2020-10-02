@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<!-- ABHAY SAXENA & KARTHIK -->
-
-<!-- COPIED FROM GITHUB, CHANGE CODE!! -->
-
-
+<!-- ABHAY SAXENA (ans192) & KARTHIK (vg311) -->
 
 
 <?import javafx.scene.control.Button?>
@@ -15,54 +11,54 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:controller="view.SonglibController"
-	prefHeight="600" prefWidth="400" xmlns="http://javafx.com/javafx/8.0.111"
+	prefHeight="400" prefWidth="1000" xmlns="http://javafx.com/javafx/8.0.111"
 	xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		
 		<!-- Song List's Window -->
 		
-		<ListView fx:id="listView" prefHeight="300" prefWidth="400" />
+		<ListView fx:id="listView" prefHeight="425" prefWidth="500" />
 		
-		<Label layoutX="160" layoutY="310" text="Song Details:" />
+		<Label layoutX="700" layoutY="70" text="Song Details:" />
 		
-		<Label layoutX="9.0" layoutY="338.0" text="Name:" />
+		<Label layoutX="530" layoutY="105" text="Name:" />
 		
 		<!-- Song Name TextField -->
-		<TextField fx:id="songName" layoutX="57.0" layoutY="335.0"
+		<TextField fx:id="songName" layoutX="600" layoutY="100"
 			prefHeight="25.0" prefWidth="320" promptText="Song Name"/>
 			
-		<Label layoutX="9.0" layoutY="373.0" text="Artist:" />
+		<Label layoutX="530" layoutY="155" text="Artist:" />
 		
 		<!-- Song Artist TextField -->
-		<TextField fx:id="artistName" layoutX="57.0" layoutY="370.0"
+		<TextField fx:id="artistName" layoutX="600" layoutY="150"
 			prefWidth="320" promptText="Artist Name"/>
 			
-		<Label layoutX="9.0" layoutY="409.0" text="Album:" />
+		<Label layoutX="530" layoutY="205" text="Album:" />
 		
 		<!-- Album Name TextField -->
-		<TextField fx:id="albumName" layoutX="57.0" layoutY="405.0"
+		<TextField fx:id="albumName" layoutX="600" layoutY="200"
 			prefWidth="320" promptText="Album Name (Optional)"/>
 			
-		<Label layoutX="9.0" layoutY="443.0" text="Year:" />
+		<Label layoutX="530" layoutY="255" text="Year:" />
 		
 		<!-- Year of Release TextField -->
-		<TextField fx:id="yearOfRelease" layoutX="57.0" layoutY="440.0"
+		<TextField fx:id="yearOfRelease" layoutX="600" layoutY="250"
 			prefWidth="320" promptText="Year of Release (Optional)"/>
 			
 		<!-- Add Button -->
-		<Button fx:id="addButton" layoutX="50" layoutY="490"
+		<Button fx:id="addButton" layoutX="550" layoutY="310"
 			mnemonicParsing="false" text="Add Song" onAction="#add"/>
 			
 		<!-- Delete Button -->
-		<Button fx:id="deleteButton" layoutX="155.0" layoutY="490"
+		<Button fx:id="deleteButton" layoutX="695" layoutY="310"
 			mnemonicParsing="false" text="Delete Song" onAction="#delete"/>
 			
 		<!-- Edit Button -->
-		<Button fx:id="editButton" layoutX="273" layoutY="490"
+		<Button fx:id="editButton" layoutX="850" layoutY="310"
 			mnemonicParsing="false" text="Edit Song" onAction="#edit"/>
 			
 		<!-- Clear Button -->
-		<Button fx:id="clearButton" layoutX="285" layoutY="540"
+		<Button fx:id="clearButton" layoutX="865" layoutY="360"
 			mnemonicParsing="false" text="Clear" onAction="#clearFields"/>
 			
 	</children>

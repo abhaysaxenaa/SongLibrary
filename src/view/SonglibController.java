@@ -1,4 +1,4 @@
-//Abhay Saxena & GVS Karthik
+//Abhay Saxena (ans192) & GVS Karthik (vg311)
 
 package view;
 
@@ -43,7 +43,7 @@ public class SonglibController {
 	
 	private ObservableList<Song> obsList; 
 	
-	//SORTER
+	//Created Song comparator, used for sorting the list in alphabetical order.
 	Comparator<Song> comparator = Comparator.comparing(Song::getName);
 	
 	public void start(Stage mainStage) {
@@ -56,10 +56,10 @@ public class SonglibController {
 		
 		
 		//SORTER
-		if (!obsList.isEmpty()) {
+		/*if (!obsList.isEmpty()) {
 			FXCollections.sort(obsList, comparator);
 			listView.setItems(obsList); 
-		}
+		}*/
 		
 		
 		//As application spins up, if List != Empty, select the first song.
@@ -75,7 +75,7 @@ public class SonglibController {
 				(obs, oldVal, newVal) -> 
 				populateFields(listView.getSelectionModel().getSelectedItem()));
 		
-		//When closing the application, call File Writer.
+		//When closing the application, write songs to file.
 		mainStage.setOnCloseRequest(event -> songListFileWriter());
 		 
 		
@@ -89,22 +89,22 @@ public class SonglibController {
 			
 			Song newSong = new Song(enteredName, enteredArtist, enteredAlbum, enteredYear);
 			
-			//check for existing songs with matching fields!!
+			//Add Check: For songs with the same song and artist name.
 			if(!addCheck(newSong,true)) {
 				return;	
 			}
 			
 			Alert confirmation = generateConfirmation("Add");
-			//MODIFIED: A different type of handling for confirmation. Passing .showAndWait() directly to the if-condition.
-			//Optional<ButtonType> confirm = confirmation.showAndWait();
 			
 			if (confirmation.showAndWait().get() == ButtonType.YES) {
+				//Add song
 				listView.getItems().add(newSong);
+				
+				//Sort List
 				if (!obsList.isEmpty()) {
 					FXCollections.sort(obsList, comparator);
 					listView.setItems(obsList); 
 				}
-				//songListFileWriter();
 				
 				listView.getSelectionModel().select(newSong);
 				
@@ -115,7 +115,7 @@ public class SonglibController {
 				else {
 					int index = 0;
 					for (Song song:obsList) {
-						if(song.getName().equals(newSong.getName())) {
+						if(song.getName().equals(newSong.getName()) && song.getArtistName().equals(newSong.getArtistName())) {
 							listView.getSelectionModel().select(index);
 							break;
 						}
@@ -125,8 +125,6 @@ public class SonglibController {
 				}
 				
 			}
-
-				   	clearFields();
 				
 			
 		}
@@ -200,6 +198,7 @@ public class SonglibController {
 				 listView.getSelectionModel().select(index++);
 			 }
 		}
+		populateFields(listView.getSelectionModel().getSelectedItem());
 		
 	}
 	
