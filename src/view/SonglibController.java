@@ -4,7 +4,11 @@ package view;
 
 import javafx.event.ActionEvent;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
@@ -26,10 +30,10 @@ public class SonglibController {
 	@FXML         
 	ListView<Song> listView;  
 	
-	@FXML TextField nameField;
-	@FXML TextField artistField;
-	@FXML TextField albumField;
-	@FXML TextField yearField;
+	@FXML TextField songName;
+	@FXML TextField artistName;
+	@FXML TextField albumName;
+	@FXML TextField yearOfRelease;
 	
 	@FXML Button addButton;
 	@FXML Button editButton;
@@ -45,6 +49,8 @@ public class SonglibController {
 		
 		obsList = FXCollections.observableArrayList(); 
 
+		songListReader();
+		
 		listView.setItems(obsList); 
 		
 		//Somehow sort the obsList!!
@@ -60,9 +66,8 @@ public class SonglibController {
 				(obs, oldVal, newVal) -> 
 				populateFields(listView.getSelectionModel().getSelectedItem()));
 		
-		//Enable Buttons only if user enters SongName & ArtistName.
-		
-		//Enable Buttons if user clicks on any one of the song's from the list.
+		//When closing the application, call File Writer.
+		mainStage.setOnCloseRequest(event -> songListFileWriter());
 		 
 		
 	}
@@ -70,8 +75,8 @@ public class SonglibController {
 	@FXML
 	public void add(ActionEvent event) {
 		
-			String enteredName = nameField.getText(), enteredArtist = artistField.getText(),
-					enteredAlbum = albumField.getText(), enteredYear = yearField.getText();
+			String enteredName = songName.getText(), enteredArtist = artistName.getText(),
+					enteredAlbum = albumName.getText(), enteredYear = yearOfRelease.getText();
 			
 			Song newSong = new Song(enteredName, enteredArtist, enteredAlbum, enteredYear);
 			
@@ -86,7 +91,7 @@ public class SonglibController {
 			
 			if (confirmation.showAndWait().get() == ButtonType.YES) {
 				listView.getItems().add(newSong);
-				songListFileWriter();
+				//songListFileWriter();
 				
 				listView.getSelectionModel().select(newSong);
 				
@@ -188,7 +193,7 @@ public class SonglibController {
 	//Edit Song
 	@FXML
 	public void edit(ActionEvent event) throws IOException {
-		String enteredName = nameField.getText(), enteredArtist = artistField.getText(), enteredAlbum = albumField.getText(), enteredYear = yearField.getText();
+		String enteredName = songName.getText(), enteredArtist = artistName.getText(), enteredAlbum = albumName.getText(), enteredYear = yearOfRelease.getText();
 		Song newSong = new Song(enteredName, enteredArtist, enteredAlbum, enteredYear);
 		
 		if(obsList.isEmpty()) {
@@ -221,10 +226,10 @@ public class SonglibController {
 	//Clear Fields
 	@FXML
 	public void clearFields() {
-		nameField.clear();
-		artistField.clear();
-		albumField.clear();
-		yearField.clear();
+		songName.clear();
+		artistName.clear();
+		albumName.clear();
+		yearOfRelease.clear();
 	}
 	
 	public Alert generateConfirmation(String function) {
@@ -248,59 +253,109 @@ public class SonglibController {
 		   alert.showAndWait();
 	}
 	
-	public void songListFileWriter() {
-		String songsTextFile = "storage/songsList.txt";
+	public void songListReader() {
+		File file = new File("songs.out");
+		if (!file.exists()){
+			try {
+				//if file doesn't exist, create a new file.
+				file.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		try {
+			
+		          BufferedReader br = new BufferedReader(new FileReader(file));
+		          String line;            
+		          line = br.readLine();
+		          while (line  != null) {	
+		        	  String[] songData = new String[4];
+		        	  String[] temp = line.split(",");
+	                       for(int i = 0; i < temp.length; i++) {
+	                           songData[i] = temp[i];
+	                       }
+		          
+	                       obsList.add(new Song(songData[0], songData[1], songData[2], songData[3]));
+	                       line = br.readLine();
+		          }
+		          listView.setItems(obsList);
+		          br.close();
+	           
+	       } catch(FileNotFoundException f) {
+	           return;
+	       } catch(IOException i) {
+	           i.printStackTrace();
+	           return;
+	       }
+    }
+	
+	public void songListFileWriter()  {
+		String songsTextFile = "songs.out";
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(songsTextFile));
 			for(Song song : obsList) {
-				bw.write(song.getName());
-				bw.newLine();
-				bw.write(song.getArtistName());
-				bw.newLine();
-				bw.write(song.getAlbumName());
-				bw.newLine();
-				bw.write(song.getYear());
-				bw.newLine();
+				String album = song.getAlbumName();
+				String year = song.getYear();
+				
+				bw.write(song.getName()+ ",");
+				bw.write(song.getArtistName() + "," );
+				
+				if(album == null) {
+					album = "";
+				}
+				bw.write(album + ",");
+				
+				if(year == null) {
+					year = "";
+				}
+				bw.write(year+ "\n");
+				
 			}
-			bw.write("end");
-			
 			bw.close();
+			
+
 		
 		} catch (IOException e) {
-			
+			//System.err.println("Error: " + e.getMessage());
+			 e.printStackTrace();
 		}
 		
+		
 	}
+	
+	/*public void songListFileWriter()  {
+		PrintWriter writer;
+	  	try {
+	  			File file = new File ("songs.in.txt");
+	  			file.createNewFile();
+	  			writer = new PrintWriter(file);
+				for(Song s: obsList)
+		    	  {
+		    		  writer.println(s.getName());
+		    		  writer.println(s.getArtistName());
+		    		  writer.println(s.getAlbumName());
+		    		  writer.println(s.getYear());
+		    		  
+		    	  }
+		    	 writer.close(); 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
 	
 	//MODIFIED: Populate Song Details on the Form.
 	public void populateFields(Song selectedSong) {
 		
 		//This if-condition nullifies the error of: if the list is empty, and the listener calls for populate fields of an empty list.
 		if (obsList.size() != 0) {
-			nameField.setText(selectedSong.getName());
-			artistField.setText(selectedSong.getArtistName());
-			albumField.setText(selectedSong.getAlbumName());
-			yearField.setText(selectedSong.getYear());
+			songName.setText(selectedSong.getName());
+			artistName.setText(selectedSong.getArtistName());
+			albumName.setText(selectedSong.getAlbumName());
+			yearOfRelease.setText(selectedSong.getYear());
 		} else {
 			return;
 		}
-	}
-	
-	//MODIFIED: Disable all Buttons on the Form.
-	public void disableButtons() {
-		
-		//If the song fields are empty.
-		addButton.setDisable(true);
-		deleteButton.setDisable(true);
-		editButton.setDisable(true);
-	}
-	
-	//MODIFIED: Enable all Buttons on the Form.
-	public void enableButtons() {
-		
-		//If the Song Name && Artist Field is not empty.
-		addButton.setDisable(false);
-		deleteButton.setDisable(false);
-		editButton.setDisable(false);
 	}
 }

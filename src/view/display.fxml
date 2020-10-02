@@ -28,25 +28,25 @@
 		<Label layoutX="9.0" layoutY="338.0" text="Name:" />
 		
 		<!-- Song Name TextField -->
-		<TextField fx:id="nameField" layoutX="57.0" layoutY="335.0"
+		<TextField fx:id="songName" layoutX="57.0" layoutY="335.0"
 			prefHeight="25.0" prefWidth="320" promptText="Song Name"/>
 			
 		<Label layoutX="9.0" layoutY="373.0" text="Artist:" />
 		
 		<!-- Song Artist TextField -->
-		<TextField fx:id="artistField" layoutX="57.0" layoutY="370.0"
+		<TextField fx:id="artistName" layoutX="57.0" layoutY="370.0"
 			prefWidth="320" promptText="Artist Name"/>
 			
 		<Label layoutX="9.0" layoutY="409.0" text="Album:" />
 		
 		<!-- Album Name TextField -->
-		<TextField fx:id="albumField" layoutX="57.0" layoutY="405.0"
+		<TextField fx:id="albumName" layoutX="57.0" layoutY="405.0"
 			prefWidth="320" promptText="Album Name (Optional)"/>
 			
 		<Label layoutX="9.0" layoutY="443.0" text="Year:" />
 		
 		<!-- Year of Release TextField -->
-		<TextField fx:id="yearField" layoutX="57.0" layoutY="440.0"
+		<TextField fx:id="yearOfRelease" layoutX="57.0" layoutY="440.0"
 			prefWidth="320" promptText="Year of Release (Optional)"/>
 			
 		<!-- Add Button -->
